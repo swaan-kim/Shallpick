@@ -7,7 +7,7 @@ export type Comment = { id: string; photoId: string; userId: string; body: strin
 export type Vote = { messageId: string; photoId: string; userId: string; value: 'like' | 'dislike' }
 export type Pin = { id: string; messageId: string; photoId: string; userId: string; x: number; y: number; body: string }
 export type Preferences = Record<'photos' | 'comments' | 'reactions' | 'messages' | 'requests', boolean>
-export type State = { version: 1; entered: boolean; nickname: string; folders: Folder[]; photos: Photo[]; messages: Message[]; reactions: Reaction[]; comments: Comment[]; votes: Vote[]; pins: Pin[]; preferences: Preferences; readAt: Record<string, number> }
+export type State = { version: 1; entered: boolean; nickname: string; avatar?: string; leftFolderIds?: string[]; notificationsSeenAt?: number; folders: Folder[]; photos: Photo[]; messages: Message[]; reactions: Reaction[]; comments: Comment[]; votes: Vote[]; pins: Pin[]; preferences: Preferences; readAt: Record<string, number> }
 export const ME = 'me'
 export const palette = ['❤️', '😆', '🤨', '😢', '👍', '🔥', '😍', '😮']
 export const uid = () => crypto.randomUUID()
@@ -15,7 +15,7 @@ export const asset = (name: string) => `${import.meta.env.BASE_URL}assets/${name
 export function makeSeed(base = './'): State {
   const now = Date.now()
   const members = [{ id: ME, name: '나' }, { id: 'haneul', name: '하늘' }, { id: 'minseo', name: '민서' }]
-  const photos: Photo[] = Array.from({ length: 12 }, (_, i) => ({ id: `photo-${i}`, folderId: i < 8 ? 'weekend' : 'travel', src: `${base}samples/photo-${i % 4}.jpg`, name: `우리의 순간 ${i + 1}`, uploaderId: i % 3 ? 'haneul' : ME, createdAt: now - i * 60000 }))
+  const photos: Photo[] = Array.from({ length: 12 }, (_, i) => ({ id: `photo-${i}`, folderId: i < 8 ? 'weekend' : 'travel', src: `${base}samples/photo-${(i + (i >= 8 ? 2 : 0)) % 4}.jpg`, name: `우리의 순간 ${i + 1}`, uploaderId: i % 3 ? 'haneul' : ME, createdAt: now - i * 60000 }))
   return { version: 1, entered: false, nickname: '나', folders: [
     { id: 'weekend', name: '주말 나들이', code: 'WEEKND', members },
     { id: 'travel', name: '다음 여행', code: 'TRAVEL', members: members.slice(0, 2) },

@@ -19,6 +19,7 @@ export default defineConfig({
       ],
     },
     workbox: {
+      importScripts: ['notification-events.js'],
       globPatterns: ['**/*.{js,css,html,svg,png,jpg,webp,woff2}'],
       maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       dontCacheBustURLsMatching: /-[A-Za-z0-9_-]{8}\.(js|css)$/,
